@@ -112,7 +112,7 @@ export default class BaseGenerator extends Generator {
           'typescript': '5.9.3',
           'typescript-eslint': '8.57.0',
           'vite': '8.0.0',
-          'yo': '^5.0.0',
+          'yo': '7.0.0',
         };
 
         this.fs.extendJSON(this.destinationPath('package.json'), {
