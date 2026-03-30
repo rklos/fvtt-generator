@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1.1.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump Version
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: npm run bump-version "$TAG"
+
+      - name: Commit Bumped Version
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'package.json package-lock.json src/<%= manifestFile %>'
+          message: 'Bump version to ${{ steps.tag.outputs.tag }}'
+          pathspec_error_handling: exitImmediately
+
+      - name: Build
+        run: npm run build
+
+      - name: Get Module ID
+        id: moduleID
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: './dist/<%= manifestFile %>'
+          prop_path: 'id'
+
+      - name: Get mininum
+        id: minimum
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: './dist/<%= manifestFile %>'
+          prop_path: 'compatibility.minimum'
+
+      - name: Get verified
+        id: verified
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: './dist/<%= manifestFile %>'
+          prop_path: 'compatibility.verified'
+
+      - name: Set Download Link
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: './dist/<%= manifestFile %>'
+          field: 'download'
+          value: "https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.tag}}/${{steps.moduleID.outputs.prop}}.zip"
+
+      - name: Set Manifest Link
+        uses: jossef/action-set-json-field@v2
+        with:
+          file: './dist/<%= manifestFile %>'
+          field: 'manifest'
+          value: "https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.tag}}/<%= manifestFile %>"
+
+      - name: Create ZIP
+        working-directory: ./dist
+        env:
+          MODULE_ID: ${{ steps.moduleID.outputs.prop }}
+        run: zip -r "./$MODULE_ID.zip" ./*
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.9.0
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ github.event.release.name }}
+          draft: ${{ github.event.release.unpublished }}
+          prerelease: ${{ github.event.release.prerelease }}
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}
+          artifacts: "./dist/<%= manifestFile %>, ./dist/${{steps.moduleID.outputs.prop}}.zip"
+
+      - name: Publish to Foundry Repository
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.foundryvtt.com/_api/packages/release_version'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json", "Authorization" : "${{ secrets.FOUNDRY_KEY }}"}'
+          data: '{"dry_run": false, "id": "${{steps.moduleID.outputs.prop}}", "release": {"version":  "${{steps.tag.outputs.tag}}", "manifest": "https://github.com/${{github.repository}}/releases/download/${{steps.tag.outputs.tag}}/<%= manifestFile %>", "notes": "https://github.com/${{github.repository}}/releases/tag/${{steps.tag.outputs.tag}}", "compatibility" : {"minimum": "${{steps.minimum.outputs.prop}}", "verified": "${{steps.verified.outputs.prop}}"}}}'
+          timeout: 20000

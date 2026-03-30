@@ -1,0 +1,19 @@
+{
+  "name": "generator-fvtt",
+  "version": "0.1.0",
+  "description": "Yeoman generator for Foundry VTT modules, systems, and Warhammer translation modules",
+  "type": "module",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "foundry-vtt",
+    "fvtt"
+  ],
+  "author": "Radoslaw Klos <radoslaw@klos.dev>",
+  "license": "MIT",
+  "dependencies": {
+    "yeoman-generator": "^7.0.0"
+  }
+}

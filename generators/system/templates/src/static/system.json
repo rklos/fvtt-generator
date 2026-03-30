@@ -1,0 +1,57 @@
+{
+  "id": "<%= id %>",
+  "title": "<%= title %>",
+  "description": "<%= description %>",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "<%= author %>",
+      "email": "<%= email %>"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "<%= outputFilename %>.js"
+  ],
+  "styles": [
+    "<%= outputFilename %>.css"
+  ],
+  "documentTypes": {
+    "Actor": {
+<%_ actorTypes.forEach(function(t) { -%>
+      "<%= t %>": {},
+<%_ }) -%>
+    },
+    "Item": {
+<%_ itemTypes.forEach(function(t) { -%>
+      "<%= t %>": {},
+<%_ }) -%>
+    }
+  },
+<%_ if (packs && packs.length > 0) { -%>
+  "packs": [
+<%_ packs.forEach(function(pack, i) { -%>
+    {
+      "name": "<%= pack.name %>",
+      "label": "<%= pack.label %>",
+      "type": "<%= pack.type %>",
+      "system": "<%= id %>"
+    }<%= i < packs.length - 1 ? ',' : '' %>
+<%_ }) -%>
+  ],
+<%_ } -%>
+  "languages": [
+<%_ languages.forEach(function(lang, i) { -%>
+    {
+      "lang": "<%= lang.lang %>",
+      "name": "<%= lang.name %>",
+      "path": "static/lang/<%= lang.lang %>.json"
+    }<%= i < languages.length - 1 ? ',' : '' %>
+<%_ }) -%>
+  ],
+  "license": "<%= license %>",
+  "url": "https://github.com/rklos/<%= id %>"
+}

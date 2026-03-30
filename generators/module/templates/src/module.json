@@ -1,0 +1,45 @@
+{
+  "id": "<%= id %>",
+  "title": "<%= title %>",
+  "description": "<%= description %>",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "<%= author %>",
+      "email": "<%= email %>"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "<%= outputFilename %>.js"
+  ],
+  "styles": [
+    "<%= outputFilename %>.css"
+  ],
+  "languages": [
+<%_ languages.forEach(function(lang, i) { -%>
+    {
+      "lang": "<%= lang.lang %>",
+      "name": "<%= lang.name %>",
+      "path": "lang/<%= lang.lang %>.json"
+    }<%= i < languages.length - 1 ? ',' : '' %>
+<%_ }) -%>
+  ],
+<%_ if (optionalDependencies && optionalDependencies.length > 0) { -%>
+  "relationships": {
+    "optional": [
+<%_ optionalDependencies.forEach(function(dep, i) { -%>
+      {
+        "id": "<%= dep.id %>",
+        "type": "<%= dep.type %>"
+      }<%= i < optionalDependencies.length - 1 ? ',' : '' %>
+<%_ }) -%>
+    ]
+  },
+<%_ } -%>
+  "license": "<%= license %>",
+  "url": "https://github.com/rklos/<%= id %>"
+}
