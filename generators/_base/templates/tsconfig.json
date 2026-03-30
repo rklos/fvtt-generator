@@ -17,8 +17,6 @@
   },
 <%_ if (type === 'module') { -%>
   "include": ["src", "vite-env.d.ts"]
-<%_ } else if (type === 'system') { -%>
-  "include": ["src", "tests", "tools", "vite-env.d.ts", "vitest.config.ts"]
 <%_ } else if (type === 'warhammer-translation') { -%>
   "include": ["src", "tools", "tools.config.ts", ".vite", "vite-env.d.ts"]
 <%_ } -%>

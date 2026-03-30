@@ -15,10 +15,6 @@ export default [
       'no-underscore-dangle': 'off',
       // Allow property mutation on function parameters (DOM elements, Roll objects)
       'no-param-reassign': [ 'error', { props: false } ],
-<% if (type === 'system') { -%>
-      // Foundry VTT systems use console.log for init/ready lifecycle logging
-      'no-console': 'off',
-<% } -%>
 <% if (type === 'warhammer-translation') { -%>
     },
   },

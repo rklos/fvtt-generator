@@ -36,7 +36,7 @@ export default class BaseGenerator extends Generator {
           license: this.options.license,
           outputFilename: this.options.outputFilename,
           type: this.options.type,
-          manifestFile: this.options.type === 'system' ? 'static/system.json' : 'module.json',
+          manifestFile: 'module.json',
           repoUrl: `https://github.com/rklos/${this.options.id}`,
         };
 
@@ -95,9 +95,7 @@ export default class BaseGenerator extends Generator {
         const baseScripts = {
           build: type === 'warhammer-translation'
             ? 'vite build'
-            : type === 'system'
-              ? 'tsc --noEmit && vite build && npm run build:packs'
-              : 'tsc --noEmit && vite build',
+            : 'tsc --noEmit && vite build',
           'bump-version': 'tsx tools/bump-version.ts',
           'scaffold': scaffoldCmd,
         };

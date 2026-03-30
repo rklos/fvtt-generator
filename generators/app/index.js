@@ -21,7 +21,6 @@ export default class AppGenerator extends Generator {
         message: 'What type of Foundry VTT project?',
         choices: [
           { name: 'Module', value: 'module' },
-          { name: 'System', value: 'system' },
           { name: 'Warhammer Translation', value: 'warhammer-translation' },
         ],
       },

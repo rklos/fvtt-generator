@@ -1,9 +1,8 @@
 # generator-fvtt
 
-Yeoman generator for scaffolding and maintaining Foundry VTT projects. Supports three project types:
+Yeoman generator for scaffolding and maintaining Foundry VTT projects. Supports two project types:
 
 - **module** — standalone Foundry VTT modules (e.g., dice manipulation, token utilities)
-- **system** — complete game systems with data models, sheets, and compendium packs
 - **warhammer-translation** — Polish translation modules for Warhammer 40k systems on Foundry VTT
 
 ## Installation
@@ -37,7 +36,6 @@ npx yo fvtt
 
 ```bash
 npx yo fvtt:module
-npx yo fvtt:system
 npx yo fvtt:warhammer-translation
 ```
 
@@ -89,29 +87,6 @@ Scaffolds a Foundry VTT module with:
 | Languages | `en`, `pl` |
 | Optional dependencies | `dice-so-nice` (comma-separated) |
 
-### System (`yo fvtt:system`)
-
-Scaffolds a Foundry VTT game system. Includes everything from `module` plus:
-
-| File | Re-run behavior |
-|------|----------------|
-| `vitest.config.ts` | Overwritten |
-| `tools/build-packs.ts` | Overwritten |
-| `tools/release.ts` | Overwritten |
-| `src/static/system.json` | First run only |
-| `src/static/lang/*.json` | First run only |
-| `src/scss/` | First run only |
-| `src/__tests__/setup.ts` | First run only |
-
-**Additional prompts:**
-
-| Prompt | Example |
-|--------|---------|
-| Actor types | `character, npc, enemy` |
-| Item types | `weapon, armor, equipment` |
-| Include vitest | `true` |
-| Packs | `weapons:Weapons:Item, armor:Armor:Item` |
-
 ### Warhammer Translation (`yo fvtt:warhammer-translation`)
 
 Scaffolds a Warhammer 40k translation module with patch management, automated reporting, and sync tooling. Includes everything from `module` plus:
@@ -150,7 +125,6 @@ generator-fvtt/generators/
   app/index.js                 <- yo fvtt (chooser)
   _base/index.js               <- shared config/tooling (composed)
   module/index.js              <- yo fvtt:module
-  system/index.js              <- yo fvtt:system
   warhammer-translation/       <- yo fvtt:warhammer-translation
 ```
 
@@ -205,7 +179,7 @@ If you have an existing Foundry VTT project and want to adopt this generator:
 
 2. **Run it:**
    ```bash
-   npx yo fvtt:module  # or npx yo fvtt:system, npx yo fvtt:warhammer-translation
+   npx yo fvtt:module  # or npx yo fvtt:warhammer-translation
    ```
 
 3. **Answer the prompts** with your project's details.
@@ -254,11 +228,6 @@ generators/
   module/
     index.js                    <- module generator logic
     templates/src/              <- first-run skeleton files
-  system/
-    index.js                    <- system generator logic
-    templates/
-      src/                      <- first-run skeleton files
-      tools/                    <- always-overwrite tools
   warhammer-translation/
     index.js                    <- translation generator logic
     templates/
