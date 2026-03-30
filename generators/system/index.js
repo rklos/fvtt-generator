@@ -65,7 +65,7 @@ export default class SystemGenerator extends Generator {
         store: true,
       },
       {
-        type: 'list',
+        type: 'select',
         name: 'license',
         message: 'License:',
         choices: ['MIT', 'GPL-3.0'],

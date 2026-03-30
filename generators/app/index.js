@@ -16,7 +16,7 @@ export default class AppGenerator extends Generator {
 
     const answers = await this.prompt([
       {
-        type: 'list',
+        type: 'select',
         name: 'type',
         message: 'What type of Foundry VTT project?',
         choices: [

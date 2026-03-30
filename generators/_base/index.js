@@ -1,8 +1,15 @@
 import Generator from 'yeoman-generator';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default class BaseGenerator extends Generator {
   constructor(args, opts) {
     super(args, opts);
+
+    // Ensure templatePath resolves to _base/templates even when composed
+    this.sourceRoot(path.join(__dirname, 'templates'));
 
     this.option('id', { type: String });
     this.option('title', { type: String });

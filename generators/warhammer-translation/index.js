@@ -61,7 +61,7 @@ export default class WarhammerTranslationGenerator extends Generator {
         store: true,
       },
       {
-        type: 'list',
+        type: 'select',
         name: 'license',
         message: 'License:',
         choices: ['MIT', 'GPL-3.0'],
