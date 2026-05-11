@@ -42,15 +42,15 @@ export default class BaseGenerator extends Generator {
 
         // Static files (no templating needed)
         this.fs.copy(
-          this.templatePath('.npmrc'),
-          this.destinationPath('.npmrc'),
-        );
-        this.fs.copy(
           this.templatePath('vite-env.d.ts'),
           this.destinationPath('vite-env.d.ts'),
         );
 
-        // .gitignore (named gitignore in templates to avoid npm stripping it)
+        // Dotfiles (renamed in templates to avoid npm stripping them on publish)
+        this.fs.copy(
+          this.templatePath('npmrc'),
+          this.destinationPath('.npmrc'),
+        );
         this.fs.copy(
           this.templatePath('gitignore'),
           this.destinationPath('.gitignore'),
