@@ -16,6 +16,11 @@ function bumpVersion(newVersionArg: string) {
 
   let newVersion: string;
   if (newVersionArg) {
+    if (oldVersion === newVersionArg) {
+      console.log('New version is the same as the current version. No changes made.');
+      return;
+    }
+
     if (!/^\d+\.\d+\.\d+(-alpha|-beta|-rc\.\d+)?$/.test(newVersionArg)) {
       throw new Error('Version must be in format x.y.z or x.y.z-alpha, x.y.z-beta, x.y.z-rc.N');
     }
